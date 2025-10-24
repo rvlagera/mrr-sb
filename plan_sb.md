@@ -457,7 +457,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 2.1: JWT Authentication Implementation
 
-- [ ] **Sub-task 2.1.1**: Create JWT token provider
+- [✅] **Sub-task 2.1.1**: Create JWT token provider
   ```kotlin
   // JwtTokenProvider.kt
   @Component
