@@ -41,6 +41,7 @@ class SecurityConfig(
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers(
                     "/auth/login",
+                    "/auth/logout",
                     "/health",
                     "/swagger-ui.html",
                     "/swagger-ui/**",

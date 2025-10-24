@@ -803,3 +803,61 @@ All tests passing:
 The next subtask (3.1.1) is to create the authentication controller for REST API endpoints.
 
 ---
+
+## Sub-task 3.1.1: Create auth controller
+
+**Completed:** 2025-10-24 09:06:40
+
+### Description
+
+Successfully implemented the AuthController with login and logout endpoints, along with comprehensive integration tests.
+
+### Key Accomplishments
+
+1. **Created AuthController** with two endpoints:
+   - POST /auth/login - User authentication endpoint
+   - POST /auth/logout - User logout endpoint
+2. **Implemented comprehensive tests** with 6 test cases covering:
+   - Successful login with valid credentials
+   - 401 error for invalid credentials
+   - 400 error for invalid request body
+   - 400 error for blank username
+   - Successful logout
+   - Proper content type validation
+3. **Updated SecurityConfig** to allow public access to /auth/logout endpoint
+4. **All tests passing** - 32 tests total (6 for AuthController)
+
+### Files Created/Modified
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/controller/AuthController.kt` - Created REST controller
+- `src/test/kotlin/dev/themobileapps/mrrsb/controller/AuthControllerTest.kt` - Created integration tests
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/SecurityConfig.kt` - Updated to permit /auth/logout
+
+### Implementation Details
+
+**AuthController Features:**
+- Swagger/OpenAPI annotations for API documentation
+- Uses @Valid for request validation
+- Returns proper HTTP status codes (200, 400, 401)
+- Integrates with AuthService for authentication logic
+- Logout endpoint returns success message (client-side JWT discarding)
+
+**Test Coverage:**
+- Uses @SpringBootTest for integration testing
+- Mocks AuthService using @MockBean
+- Tests both success and error scenarios
+- Validates JSON responses and HTTP status codes
+- Ensures proper request validation
+
+### Important Notes for Future Tasks
+
+- **Logout is stateless** - JWT tokens are discarded client-side
+- **All /auth/** endpoints now permit public access** except those explicitly requiring authentication
+- **Tests use Mockito** instead of MockK for compatibility with Spring Boot test framework
+- **SecurityConfig updated** to include /auth/logout in permitAll list
+
+### Next Steps
+
+The next subtask (3.2.1) is to create the message controller with endpoints for retrieving user messages, getting message details, counting unread messages, and marking messages as read.
+
+---

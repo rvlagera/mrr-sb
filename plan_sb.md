@@ -636,7 +636,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 3.1: Authentication Controller
 
-- [ ] **Sub-task 3.1.1**: Create auth controller
+- [✅] **Sub-task 3.1.1**: Create auth controller
   ```kotlin
   // AuthController.kt
   @RestController
