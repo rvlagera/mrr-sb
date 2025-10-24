@@ -409,7 +409,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   }
   ```
 
-- [ ] **Sub-task 1.2.3**: Configure database listener for real-time updates
+- [✅] **Sub-task 1.2.3**: Configure database listener for real-time updates
   ```kotlin
   // DatabaseNotificationListener.kt
   @Component

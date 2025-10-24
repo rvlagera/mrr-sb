@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <!-- Changed from runtime to compile to support DatabaseNotificationListener -->
         </dependency>
 
         <!-- JWT -->

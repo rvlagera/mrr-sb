@@ -370,3 +370,142 @@ All tests passing:
 ### Next Steps
 
 The next subtask (1.2.3) is to configure database listener for real-time updates using PostgreSQL LISTEN/NOTIFY.
+
+---
+
+## Sub-task 1.2.3: Configure database listener for real-time updates
+
+**Completed:** 2025-10-24 08:30:00
+
+### Description
+
+Configured PostgreSQL LISTEN/NOTIFY database listener to enable real-time notifications when new outbound SMS messages are inserted into the database. The listener runs in a background thread and processes notifications through the NotificationService.
+
+### Key Accomplishments
+
+1. **Created NotificationService** (`src/main/kotlin/dev/themobileapps/mrrsb/service/NotificationService.kt`):
+   - Processes JSON notification payloads from database
+   - Supports both `sms_id` and `id` field names for flexibility
+   - Fetches message details from repository
+   - Handles errors gracefully without crashing the application
+   - Logs notification processing for debugging
+   - Ready for WebSocket integration (TODO comment included)
+
+2. **Created DatabaseNotificationListener** (`src/main/kotlin/dev/themobileapps/mrrsb/config/DatabaseNotificationListener.kt`):
+   - Conditional component (only active with PostgreSQL)
+   - Uses @ConditionalOnProperty to enable only when using PostgreSQL driver
+   - Subscribes to `new_outbound_sms` channel via LISTEN command
+   - Runs background polling thread for notifications
+   - Automatic reconnection logic if database connection is lost
+   - Graceful shutdown with UNLISTEN and thread cleanup
+   - Error handling prevents application crashes
+   - Daemon thread ensures proper JVM shutdown
+
+3. **Updated pom.xml**:
+   - Changed PostgreSQL dependency scope from `runtime` to compile
+   - Required for DatabaseNotificationListener to access PGConnection classes
+
+4. **Created comprehensive tests**:
+   - `NotificationServiceTest.kt` - 8 unit tests for notification processing
+   - `DatabaseNotificationListenerTest.kt` - 2 integration tests for conditional bean creation
+   - All 39 tests passing (29 previous + 10 new)
+
+### Files Created
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/service/NotificationService.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/DatabaseNotificationListener.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/service/NotificationServiceTest.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/config/DatabaseNotificationListenerTest.kt`
+
+### Files Modified
+
+- `pom.xml` - Changed PostgreSQL dependency from runtime to compile scope
+- `plan_sb.md` - Marked Sub-task 1.2.3 as completed (✅)
+
+### Important Notes for Future Tasks
+
+- **Conditional Activation:**
+  - DatabaseNotificationListener only activates when using PostgreSQL
+  - In test environment (H2), the listener is NOT created
+  - Uses `@ConditionalOnProperty(name=["spring.datasource.driver-class-name"], havingValue="org.postgresql.Driver")`
+
+- **Database Channel:**
+  - Listens to `new_outbound_sms` channel
+  - Expects JSON payload with `sms_id` or `id` field
+  - Database trigger must NOTIFY this channel when inserting new messages
+
+- **Thread Management:**
+  - Background daemon thread polls every 1 second
+  - Thread is interrupted on application shutdown
+  - Proper cleanup with UNLISTEN command
+  - 5-second timeout for graceful shutdown
+
+- **Error Handling:**
+  - All errors logged but don't crash application
+  - Automatic reconnection if database connection lost
+  - Invalid JSON payloads handled gracefully
+  - Missing messages logged as warnings
+
+- **Future Integration:**
+  - TODO comment in NotificationService for WebSocket integration
+  - Ready to call `webSocketService.notifyNewMessage(message)` when WebSocket is implemented
+  - Currently logs notification details
+
+### Testing Results
+
+All tests passing:
+- 1 Spring Boot application context test
+- 3 Person entity tests
+- 5 OutboundSms entity tests
+- 9 PersonRepository tests
+- 11 OutboundSmsRepository tests
+- 8 NotificationService tests (new)
+- 2 DatabaseNotificationListener tests (new)
+- **Total: 39 tests - all passing**
+
+### Test Coverage
+
+**NotificationServiceTest (8 tests):**
+- Process notification with sms_id field
+- Process notification with id field
+- Handle message not found gracefully
+- Handle invalid JSON payload gracefully
+- Handle malformed JSON gracefully
+- Handle empty payload gracefully
+- Process high alert level message
+- Process message without person
+
+**DatabaseNotificationListenerTest (2 tests):**
+- Verify bean not created when using H2 (test environment)
+- Verify NotificationService bean always available
+
+### PostgreSQL Setup Required
+
+For production, the PostgreSQL database needs a trigger to notify on inserts:
+
+```sql
+-- Create notification function
+CREATE OR REPLACE FUNCTION notify_new_outbound_sms()
+RETURNS TRIGGER AS $$
+BEGIN
+  PERFORM pg_notify('new_outbound_sms',
+    json_build_object(
+      'sms_id', NEW.id,
+      'person_id', NEW.person_id,
+      'alert_level', NEW.alert_level
+    )::text
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create trigger
+CREATE TRIGGER outbound_sms_notify
+AFTER INSERT ON outbound_sms
+FOR EACH ROW
+EXECUTE FUNCTION notify_new_outbound_sms();
+```
+
+### Next Steps
+
+The next subtask (2.1.1) is to create JWT token provider for authentication.
