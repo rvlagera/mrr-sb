@@ -21,7 +21,7 @@
 
 ### After Subtask Completion
 
-1. **Update** the `./plan_ver2.md` file (mark subtask as completed with ✅)
+1. **Update** the `./plan_sb.md` file (mark subtask as completed with ✅)
 2. **Create or update** `./tasks-summary.md` with:
    - Subtask name
    - Timestamp when subtask was completed
@@ -104,7 +104,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 1.1: Project Structure Setup
 
-- [ ] **Sub-task 1.1.1**: Configure Maven dependencies
+- [✅] **Sub-task 1.1.1**: Configure Maven dependencies
   ```xml
   <!-- pom.xml additions -->
   <properties>
