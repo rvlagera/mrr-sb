@@ -1028,7 +1028,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 6.1: Unit Tests
 
-- [ ] **Sub-task 6.1.1**: Create service tests
+- [✅] **Sub-task 6.1.1**: Create service tests
   ```kotlin
   // AuthServiceTest.kt
   @ExtendWith(MockKExtension::class)
@@ -1074,7 +1074,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 6.2: Integration Tests
 
-- [ ] **Sub-task 6.2.1**: Create controller integration tests
+- [✅] **Sub-task 6.2.1**: Create controller integration tests
   ```kotlin
   // AuthControllerIntegrationTest.kt
   @SpringBootTest
@@ -1112,7 +1112,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 6.3: WebSocket Tests
 
-- [ ] **Sub-task 6.3.1**: Create WebSocket integration tests
+- [✅] **Sub-task 6.3.1**: Create WebSocket integration tests
   ```kotlin
   // WebSocketIntegrationTest.kt
   @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -1147,7 +1147,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 7.1: Global Exception Handling
 
-- [ ] **Sub-task 7.1.1**: Create exception handler
+- [✅] **Sub-task 7.1.1**: Create exception handler
   ```kotlin
   // GlobalExceptionHandler.kt
   @ControllerAdvice
@@ -1206,7 +1206,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 7.2: Monitoring Setup
 
-- [ ] **Sub-task 7.2.1**: Configure actuator endpoints
+- [✅] **Sub-task 7.2.1**: Configure actuator endpoints
   ```kotlin
   // HealthIndicator.kt
   @Component
