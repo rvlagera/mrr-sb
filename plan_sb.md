@@ -218,7 +218,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   </dependencies>
   ```
 
-- [ ] **Sub-task 1.1.2**: Create package structure
+- [✅] **Sub-task 1.1.2**: Create package structure
   ```
   src/main/kotlin/dev/themobileapps/mrrsb/
   ├── config/              # Configuration classes
