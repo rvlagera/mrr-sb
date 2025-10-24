@@ -732,7 +732,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 3.3: User Controller
 
-- [ ] **Sub-task 3.3.1**: Create user controller
+- [✅] **Sub-task 3.3.1**: Create user controller
   ```kotlin
   // UserController.kt
   @RestController

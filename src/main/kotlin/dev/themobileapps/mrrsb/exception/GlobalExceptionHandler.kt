@@ -84,6 +84,18 @@ class GlobalExceptionHandler {
     }
     
     /**
+     * Handle unsupported operation exception (501)
+     */
+    @ExceptionHandler(UnsupportedOperationException::class)
+    fun handleUnsupportedOperation(ex: UnsupportedOperationException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
+            .body(ErrorResponse(
+                error = "NOT_IMPLEMENTED",
+                message = ex.message ?: "This operation is not supported"
+            ))
+    }
+    
+    /**
      * Handle generic exceptions (500)
      */
     @ExceptionHandler(Exception::class)

@@ -920,3 +920,63 @@ Successfully implemented the AuthController with login and logout endpoints, alo
 The next subtask (3.2.1) is to create the message controller with endpoints for retrieving user messages, getting message details, counting unread messages, and marking messages as read.
 
 ---
+
+## Sub-task 3.3.1: Create user controller
+
+**Completed:** 2025-10-24 09:37
+
+### Description
+
+Successfully implemented the UserController with REST endpoints for user profile management, along with comprehensive DTOs, service layer, exception handling, and tests.
+
+### Key Accomplishments
+
+1. **Created DTOs for User Profile Management**:
+   - UserProfileDto for response data
+   - UpdateProfileRequest with validation for updates
+
+2. **Implemented UserService** with methods:
+   - `getUserProfile(userId)` - Retrieves user profile
+   - `updateProfile(userId, request)` - Prepared for future (currently throws UnsupportedOperationException due to read-only database)
+
+3. **Created UserController** with endpoints:
+   - GET /users/profile - Get authenticated user's profile
+   - PUT /users/profile - Update profile (returns 501 due to read-only database)
+
+4. **Enhanced Exception Handling**:
+   - Added UnsupportedOperationException handler returning 501 Not Implemented
+
+5. **Comprehensive Test Coverage**:
+   - 8 UserService tests covering all scenarios
+   - 9 UserController tests covering all endpoints and error cases
+   - All 136 tests passing successfully
+
+6. **Added mockito-kotlin dependency** (5.1.0) for null-safe Kotlin mocking
+
+### Files Created/Modified
+
+**Created:**
+- UserProfileDto.kt, UpdateProfileRequest.kt
+- UserService.kt, UserController.kt
+- UserServiceTest.kt (8 tests), UserControllerTest.kt (9 tests)
+- task-3.3.1-summary.md
+
+**Modified:**
+- GlobalExceptionHandler.kt - Added UnsupportedOperationException handler
+- pom.xml - Added mockito-kotlin dependency
+- plan_sb.md - Marked sub-task as completed
+- tasks-summary.md - Added task summary
+
+### Important Notes
+
+- **Read-Only Database**: updateProfile method throws UnsupportedOperationException with clear message about read-only mode
+- **Validation**: UpdateProfileRequest validates name (1-200 chars) and mobile number (10-20 digits, optional +)
+- **Authentication**: All endpoints require JWT authentication via CustomUserDetails
+- **Error Handling**: Returns structured JSON errors with proper HTTP status codes
+- **Testing**: Used mockito-kotlin for null-safe Kotlin mocking in tests
+
+### Next Steps
+
+The next phase (Phase 4) is WebSocket Implementation, starting with sub-task 4.1.1: Configure WebSocket with STOMP.
+
+---
