@@ -1407,7 +1407,7 @@ docker-compose logs -f mrr-sb
 
 ## Security Checklist
 
-- [ ] JWT tokens with proper expiration
+- [✅] JWT tokens with proper expiration
 - [ ] CORS properly configured
 - [ ] SQL injection prevention via JPA
 - [ ] XSS protection headers

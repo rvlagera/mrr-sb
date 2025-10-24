@@ -45,6 +45,36 @@ The next subtask (1.1.2) is to create the package structure with all necessary d
 
 ---
 
+### Sub-task 9.1: Ensure JWT tokens have proper expiration
+
+**Completed:** 2025-10-24 11:55
+
+### Description
+
+Extended the authentication response to surface JWT expiry metadata so clients can anticipate token refresh, and verified the service logic continues to reject expired tokens.
+
+### Key Accomplishments
+
+1. Added `expiresAt` to `AuthResponse` and populated it from `JwtTokenProvider` inside `AuthService`.
+2. Updated unit and controller tests to assert the expiry timestamp is returned and handled correctly.
+3. Stabilised MockK configuration by reusing a shared `mockk.version` property and JVM attach flags so inline mocks load reliably during the test suite.
+
+### Files Created/Modified
+
+- `pom.xml`
+- `src/main/kotlin/dev/themobileapps/mrrsb/dto/response/AuthResponse.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/service/AuthService.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/service/AuthServiceTest.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/controller/AuthControllerTest.kt`
+- `plan_sb.md`
+
+### Test Results
+
+- Command: `./mvnw test`
+- Outcome: ✅ All 174 tests pass (0 failures, 0 errors, 9 skipped)
+
+---
+
 ## Sub-task 1.1.2: Create package structure
 
 **Completed:** 2025-10-24 08:09:30

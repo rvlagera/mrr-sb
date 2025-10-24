@@ -48,7 +48,8 @@ class AuthControllerTest {
             token = "jwt-token-123",
             username = "testuser",
             name = "Test User",
-            userId = 1
+            userId = 1,
+            expiresAt = 1_700_000_000_000
         )
 
         `when`(authService.authenticate(loginRequest)).thenReturn(authResponse)
@@ -64,6 +65,7 @@ class AuthControllerTest {
             .andExpect(jsonPath("$.username").value("testuser"))
             .andExpect(jsonPath("$.name").value("Test User"))
             .andExpect(jsonPath("$.userId").value(1))
+            .andExpect(jsonPath("$.expiresAt").value(1_700_000_000_000))
     }
 
     @Test
@@ -127,7 +129,8 @@ class AuthControllerTest {
             token = "jwt-token-123",
             username = "testuser",
             name = "Test User",
-            userId = 1
+            userId = 1,
+            expiresAt = 1_700_000_100_000
         )
 
         `when`(authService.authenticate(loginRequest)).thenReturn(authResponse)

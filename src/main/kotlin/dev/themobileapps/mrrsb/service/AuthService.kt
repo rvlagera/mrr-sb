@@ -30,12 +30,14 @@ class AuthService(
         }
 
         val token = jwtTokenProvider.generateToken(username, person.personId)
+        val expirationDate = jwtTokenProvider.getExpirationDateFromToken(token)
 
         return AuthResponse(
             token = token,
             username = username,
             name = person.name,
-            userId = person.personId
+            userId = person.personId,
+            expiresAt = expirationDate.time
         )
     }
 

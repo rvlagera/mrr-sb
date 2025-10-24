@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.LocalDateTime
+import java.util.Date
 
 @ExtendWith(MockKExtension::class)
 class AuthServiceTest {
@@ -45,9 +46,11 @@ class AuthServiceTest {
             active = true
         )
         val expectedToken = "jwt.token.here"
+        val expectedExpiry = Date(1_700_000_000_000)
 
         every { personRepository.findByUsernameAndActive(username, true) } returns person
         every { jwtTokenProvider.generateToken(username, 1) } returns expectedToken
+        every { jwtTokenProvider.getExpirationDateFromToken(expectedToken) } returns expectedExpiry
 
         // When
         val result = authService.authenticate(username, password)
@@ -58,8 +61,10 @@ class AuthServiceTest {
         assertEquals(username, result.username)
         assertEquals("Test User", result.name)
         assertEquals(1, result.userId)
+        assertEquals(expectedExpiry.time, result.expiresAt)
         verify(exactly = 1) { personRepository.findByUsernameAndActive(username, true) }
         verify(exactly = 1) { jwtTokenProvider.generateToken(username, 1) }
+        verify(exactly = 1) { jwtTokenProvider.getExpirationDateFromToken(expectedToken) }
     }
 
     @Test
@@ -76,10 +81,12 @@ class AuthServiceTest {
             active = true
         )
         val expectedToken = "jwt.token.here"
+        val expectedExpiry = Date(1_700_000_100_000)
 
         every { personRepository.findByUsernameAndActive(username, true) } returns person
         every { passwordEncoder.matches(password, bcryptPassword) } returns true
         every { jwtTokenProvider.generateToken(username, 1) } returns expectedToken
+        every { jwtTokenProvider.getExpirationDateFromToken(expectedToken) } returns expectedExpiry
 
         // When
         val result = authService.authenticate(username, password)
@@ -90,9 +97,11 @@ class AuthServiceTest {
         assertEquals(username, result.username)
         assertEquals("Test User", result.name)
         assertEquals(1, result.userId)
+        assertEquals(expectedExpiry.time, result.expiresAt)
         verify(exactly = 1) { personRepository.findByUsernameAndActive(username, true) }
         verify(exactly = 1) { passwordEncoder.matches(password, bcryptPassword) }
         verify(exactly = 1) { jwtTokenProvider.generateToken(username, 1) }
+        verify(exactly = 1) { jwtTokenProvider.getExpirationDateFromToken(expectedToken) }
     }
 
     @Test
@@ -107,9 +116,11 @@ class AuthServiceTest {
             active = true
         )
         val expectedToken = "jwt.token.here"
+        val expectedExpiry = Date(1_700_000_200_000)
 
         every { personRepository.findByUsernameAndActive(request.username, true) } returns person
         every { jwtTokenProvider.generateToken(request.username, 1) } returns expectedToken
+        every { jwtTokenProvider.getExpirationDateFromToken(expectedToken) } returns expectedExpiry
 
         // When
         val result = authService.authenticate(request)
@@ -120,6 +131,7 @@ class AuthServiceTest {
         assertEquals(request.username, result.username)
         assertEquals("Test User", result.name)
         assertEquals(1, result.userId)
+        assertEquals(expectedExpiry.time, result.expiresAt)
     }
 
     @Test
@@ -225,9 +237,11 @@ class AuthServiceTest {
             dateCreated = LocalDateTime.now()
         )
         val expectedToken = "jwt.token.here"
+        val expectedExpiry = Date(1_700_000_300_000)
 
         every { personRepository.findByUsernameAndActive(username, true) } returns person
         every { jwtTokenProvider.generateToken(username, 1) } returns expectedToken
+        every { jwtTokenProvider.getExpirationDateFromToken(expectedToken) } returns expectedExpiry
 
         // When
         val result = authService.authenticate(username, password)
@@ -238,6 +252,7 @@ class AuthServiceTest {
         assertEquals(username, result.username)
         assertEquals("Test User", result.name)
         assertEquals(1, result.userId)
+        assertEquals(expectedExpiry.time, result.expiresAt)
     }
 
     @Test
@@ -257,6 +272,7 @@ class AuthServiceTest {
         every { personRepository.findByUsernameAndActive(username, true) } returns person
         every { passwordEncoder.matches(password, bcryptPassword) } returns true
         every { jwtTokenProvider.generateToken(username, 1) } returns "token"
+        every { jwtTokenProvider.getExpirationDateFromToken("token") } returns Date(1_700_000_400_000)
 
         // When
         authService.authenticate(username, password)
@@ -280,6 +296,7 @@ class AuthServiceTest {
 
         every { personRepository.findByUsernameAndActive(username, true) } returns person
         every { jwtTokenProvider.generateToken(username, 1) } returns "token"
+        every { jwtTokenProvider.getExpirationDateFromToken("token") } returns Date(1_700_000_500_000)
 
         // When
         authService.authenticate(username, password)
