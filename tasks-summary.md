@@ -1145,3 +1145,110 @@ Phase 4 (WebSocket Implementation) is now complete! Most of Phase 5 (Service Lay
 - Phase 8: Deployment and Documentation
 
 ---
+
+## Sub-task 5.1.1: Implement message service
+
+**Completed:** 2025-10-24 10:03 (Retrospectively marked - implemented in Sub-task 3.2.1)
+
+### Description
+
+MessageService was already fully implemented in Sub-task 3.2.1. This service provides comprehensive message management functionality including pagination, filtering, authorization, and timezone handling.
+
+### Key Features
+
+1. **getUserMessages()** - Paginated message retrieval with optional date filtering
+2. **getMessage()** - Single message retrieval with authorization check
+3. **getUnreadCount()** - Count of unread/unsent messages
+4. **convertToDto()** - Entity to DTO conversion with timezone adjustment
+
+### Implementation Highlights
+
+- **Pagination Support**: Handles both paginated and after-date filtered queries
+- **Authorization**: Verifies user owns the message before returning
+- **Timezone Handling**: Adjusts UTC+8 database timestamps to UTC
+- **Read-Only**: All operations are read-only (@Transactional(readOnly = true))
+- **Error Handling**: Throws ResourceNotFoundException and UnauthorizedAccessException
+
+### Files
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/service/MessageService.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/service/MessageServiceTest.kt` (12 tests)
+
+### Next Steps
+
+Sub-task 5.1.2: Implement notification service (also already complete)
+
+---
+
+## Sub-task 5.1.2: Implement notification service
+
+**Completed:** 2025-10-24 10:03 (Retrospectively marked - implemented in Sub-tasks 1.2.3 and 4.2.1)
+
+### Description
+
+NotificationService was already fully implemented and integrated with WebSocket functionality. This service processes database notifications and sends real-time updates to connected clients.
+
+### Key Features
+
+1. **processNewMessage()** - Processes JSON notifications from PostgreSQL LISTEN/NOTIFY
+2. **WebSocket Integration** - Sends real-time notifications via NotificationWebSocketService
+3. **Flexible Payload Parsing** - Supports both `sms_id` and `id` field names
+4. **Error Handling** - Graceful error handling without application crashes
+
+### Implementation Highlights
+
+- **Database Integration**: Triggered by PostgreSQL LISTEN/NOTIFY mechanism
+- **Real-time Delivery**: Sends notifications immediately via WebSocket
+- **JSON Parsing**: Uses Jackson ObjectMapper for payload deserialization
+- **Logging**: Comprehensive logging for debugging and monitoring
+- **Fault Tolerance**: Errors don't cascade to other components
+
+### Files
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/service/NotificationService.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/service/NotificationServiceTest.kt` (8 tests)
+
+### Next Steps
+
+Sub-task 5.2.1: Create datetime utility (also already complete)
+
+---
+
+## Sub-task 5.2.1: Create datetime utility
+
+**Completed:** 2025-10-24 10:03 (Retrospectively marked - implemented in Sub-task 3.2.1)
+
+### Description
+
+DateTimeUtils was already fully implemented in Sub-task 3.2.1. This utility handles timezone conversions for database timestamps stored in UTC+8 format.
+
+### Key Features
+
+1. **adjustFromDatabaseTime()** - Converts UTC+8 database time to UTC
+2. **adjustToDatabaseTime()** - Converts UTC to UTC+8 for database writes (not used in read-only mode)
+3. **formatRelativeTime()** - Formats timestamps as relative time strings
+
+### Implementation Highlights
+
+- **Timezone Offset**: Handles UTC+8 offset for database timestamps
+- **Bidirectional**: Supports both reading and writing (though writes not used)
+- **Relative Formatting**: User-friendly time descriptions (e.g., "2 hours ago")
+- **Component**: Spring-managed bean available throughout application
+
+### Files
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/util/DateTimeUtils.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/util/DateTimeUtilsTest.kt` (9 tests)
+
+### Summary
+
+Phase 5 (Service Layer Implementation) is now officially complete! All services were already implemented in earlier phases:
+- MessageService (Sub-task 3.2.1)
+- NotificationService (Sub-tasks 1.2.3 and 4.2.1)
+- DateTimeUtils (Sub-task 3.2.1)
+
+### Next Steps
+
+The next major phase is Phase 6: Testing Implementation, starting with Sub-task 6.1.1: Create service tests.
+
+---

@@ -900,7 +900,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 5.1: Core Services
 
-- [ ] **Sub-task 5.1.1**: Implement message service
+- [✅] **Sub-task 5.1.1**: Implement message service
   ```kotlin
   // MessageService.kt
   @Service
@@ -952,7 +952,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   }
   ```
 
-- [ ] **Sub-task 5.1.2**: Implement notification service
+- [✅] **Sub-task 5.1.2**: Implement notification service
   ```kotlin
   // NotificationService.kt
   @Service
@@ -990,7 +990,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 5.2: Utility Services
 
-- [ ] **Sub-task 5.2.1**: Create datetime utility
+- [✅] **Sub-task 5.2.1**: Create datetime utility
   ```kotlin
   // DateTimeUtils.kt
   @Component
