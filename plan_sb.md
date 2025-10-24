@@ -673,7 +673,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 3.2: Message Controller
 
-- [ ] **Sub-task 3.2.1**: Create message controller
+- [✅] **Sub-task 3.2.1**: Create message controller
   ```kotlin
   // MessageController.kt
   @RestController
