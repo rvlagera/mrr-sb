@@ -723,3 +723,83 @@ All tests passing:
 The next subtask (2.2.1) is to configure Spring Security with the authentication filter and CORS settings.
 
 ---
+
+## Sub-task 2.2.1: Configure Spring Security
+
+**Completed:** 2025-10-24 08:59
+
+### Description
+
+Implemented comprehensive Spring Security configuration with JWT authentication, CORS support, and stateless session management for the Spring Boot backend.
+
+### Key Accomplishments
+
+1. **Created CorsProperties Configuration**
+   - `CorsProperties.kt`: Configuration properties class for CORS settings
+   - Supports configurable allowed origins, methods, headers, and credentials
+   - Uses `@ConfigurationProperties` for property binding
+
+2. **Created JWT Authentication Entry Point**
+   - `JwtAuthenticationEntryPoint.kt`: Custom entry point returning JSON error responses
+   - Handles authentication failures with structured error information
+
+3. **Implemented SecurityConfig**
+   - Configured security filter chain with CSRF disabled and CORS enabled
+   - Stateless session management (no session cookies)
+   - Public endpoints: /auth/login, /health, /swagger-ui/**, /api-docs/**, /ws/**, /actuator/**
+   - All other endpoints require JWT authentication
+   - JWT filter added before standard authentication filter
+   - Provides PasswordEncoder bean (BCryptPasswordEncoder)
+
+4. **Consolidated PasswordEncoder Configuration**
+   - Removed standalone `PasswordEncoderConfig.kt`
+   - Consolidated into SecurityConfig to avoid bean conflicts
+
+5. **Comprehensive Test Coverage**
+   - 5 test cases for SecurityConfig
+   - Tests cover password encoding, CORS configuration, and bean creation
+
+### Files Created
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/CorsProperties.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/security/JwtAuthenticationEntryPoint.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/SecurityConfig.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/config/SecurityConfigTest.kt`
+- `tasks-summary/task-2.2.1-summary.md`
+
+### Files Modified
+
+- `plan_sb.md` - Marked Sub-task 2.2.1 as completed (✅)
+
+### Files Removed
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/PasswordEncoderConfig.kt`
+
+### Technical Details
+
+- **Session Management**: Stateless (SessionCreationPolicy.STATELESS)
+- **CSRF**: Disabled for stateless JWT authentication
+- **CORS**: Configurable via application.properties (cors.* prefix)
+- **Password Encoder**: BCryptPasswordEncoder
+- **Authentication Entry Point**: Returns 401 JSON responses for unauthorized access
+
+### Important Notes for Future Tasks
+
+- Public endpoints configured for login, health, docs, WebSocket, and actuator
+- CORS properties loaded from application.properties
+- JWT authentication filter executes before UsernamePasswordAuthenticationFilter
+- PasswordEncoder bean available throughout application
+- Ready for AuthController implementation in Phase 3
+
+### Test Results
+
+All tests passing:
+- 5 SecurityConfigTest tests (new): ✅
+- All existing tests: ✅
+- **Total: 85 tests, 0 failures, 0 errors**
+
+### Next Steps
+
+The next subtask (3.1.1) is to create the authentication controller for REST API endpoints.
+
+---

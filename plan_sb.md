@@ -573,7 +573,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 2.2: Security Configuration
 
-- [ ] **Sub-task 2.2.1**: Configure Spring Security
+- [✅] **Sub-task 2.2.1**: Configure Spring Security
   ```kotlin
   // SecurityConfig.kt
   @Configuration
