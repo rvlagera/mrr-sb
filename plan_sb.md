@@ -862,7 +862,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   }
   ```
 
-- [ ] **Sub-task 4.2.2**: Create WebSocket controller
+- [✅] **Sub-task 4.2.2**: Create WebSocket controller
   ```kotlin
   // WebSocketController.kt
   @Controller

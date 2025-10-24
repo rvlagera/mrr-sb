@@ -1092,3 +1092,56 @@ Successfully implemented the WebSocket notification service for real-time messag
 The next subtask (4.2.2) is to create WebSocket controller for handling client subscriptions, ping/pong, and scheduled heartbeats.
 
 ---
+
+## Sub-task 4.2.2: Create WebSocket controller
+
+**Completed:** 2025-10-24 10:00
+
+### Description
+
+Successfully implemented the WebSocket controller to handle client subscriptions, ping/pong health checks, and scheduled heartbeat broadcasts for maintaining WebSocket connections.
+
+### Key Accomplishments
+
+1. **Created WebSocketController** with three main functions:
+   - `/app/subscribe` endpoint for client subscription acknowledgment
+   - `/app/ping` endpoint for connection health checks (pong response)
+   - Scheduled heartbeat broadcast every 30 seconds to `/topic/heartbeat`
+
+2. **Enabled Scheduling** in main application:
+   - Added `@EnableScheduling` annotation to `MrrSbApplication`
+   - Enables `@Scheduled` annotation for heartbeat functionality
+
+3. **Comprehensive Test Coverage**:
+   - 10 WebSocketController tests covering all scenarios
+   - All 166 tests passing (10 new + 156 existing)
+
+### Files Created
+
+- WebSocketController.kt
+- WebSocketControllerTest.kt
+- task-4.2.2-summary.md
+
+### Files Modified
+
+- MrrSbApplication.kt - Added @EnableScheduling
+- plan_sb.md - Marked sub-task 4.2.2 as completed
+
+### Important Notes
+
+- **WebSocket Endpoints:**
+  - Subscribe: Client → `/app/subscribe`, Server → `/user/queue/subscribed`
+  - Ping: Client → `/app/ping`, Server → `/user/queue/pong`
+  - Heartbeat: Server → `/topic/heartbeat` (broadcast every 30s)
+- **Authentication**: JWT required, supports anonymous users
+- **Error Handling**: Graceful error handling with comprehensive logging
+- **Ready for Production**: Full WebSocket infrastructure complete
+
+### Next Steps
+
+Phase 4 (WebSocket Implementation) is now complete! Most of Phase 5 (Service Layer) was already implemented in earlier phases. The next major phases are:
+- Phase 6: Testing Implementation
+- Phase 7: Error Handling and Monitoring  
+- Phase 8: Deployment and Documentation
+
+---
