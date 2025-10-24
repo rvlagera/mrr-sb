@@ -96,3 +96,78 @@ Created the complete package structure for the Spring Boot backend with all nece
 ### Next Steps
 
 The next subtask (1.1.3) is to configure application properties for the Spring Boot application including database configuration, JWT settings, logging, CORS, WebSocket, and other application-wide settings.
+
+---
+
+## Sub-task 1.1.3: Configure application properties
+
+**Completed:** 2025-10-24 08:14:25
+
+### Description
+
+Configured comprehensive application properties for the Spring Boot backend including all necessary settings for database connectivity, security, logging, CORS, WebSocket, monitoring, and API documentation.
+
+### Key Accomplishments
+
+1. **Updated application.properties** with complete configuration:
+   - Server configuration (port 8080, context path /api)
+   - PostgreSQL database connection settings (read-only mode)
+   - JPA/Hibernate configuration with PostgreSQL dialect
+   - JWT authentication settings with environment variable support
+   - Comprehensive logging configuration for different packages
+   - CORS configuration for cross-origin requests
+   - WebSocket configuration with message size limits
+   - Spring Boot Actuator endpoints (health, info, metrics)
+   - Jackson JSON serialization settings
+   - SpringDoc OpenAPI/Swagger documentation paths
+
+2. **Enhanced application-local.properties** for local development:
+   - Local PostgreSQL connection details
+   - Enhanced debug logging for development
+   - DevTools enabled for hot reload
+   - SQL query logging with parameter binding
+
+3. **Verified all tests still pass** with new configuration
+
+### Files Created/Modified
+
+- `src/main/resources/application.properties` - Comprehensive production configuration
+- `src/main/resources/application-local.properties` - Enhanced local development profile
+
+### Important Notes for Future Tasks
+
+- **Database password** uses environment variable `${DB_PASSWORD}` with fallback default
+- **JWT secret** uses environment variable `${JWT_SECRET}` with fallback (must change in production)
+- **JWT expiration** set to 86400000ms (24 hours)
+- **Context path** is `/api` - all endpoints will be prefixed with this
+- **DDL auto** set to `none` - no automatic schema generation (read-only database)
+- **Open-in-view** disabled for better performance and explicit transaction boundaries
+- **CORS** configured to allow localhost:3000 and localhost:8080
+- **Actuator** exposes health, info, and metrics endpoints
+- **Swagger UI** will be available at `/api/swagger-ui.html`
+- **API docs** will be available at `/api/api-docs`
+
+### Configuration Highlights
+
+**Security:**
+- Environment variable support for sensitive data (passwords, JWT secrets)
+- Production-ready defaults with override capability
+
+**Database:**
+- Read-only mode (ddl-auto=none)
+- PostgreSQL 17.6 compatible
+- Proper schema configuration (public)
+
+**Development:**
+- DevTools enabled in local profile
+- SQL logging with parameter tracing
+- Hot reload support
+
+**Monitoring:**
+- Health checks configured
+- Metrics exposed
+- Info endpoint available
+
+### Next Steps
+
+The next subtask (1.2.1) is to create JPA entities for Person and OutboundSms tables to map the existing database schema.

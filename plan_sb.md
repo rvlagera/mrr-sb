@@ -258,7 +258,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   └── MrrSbApplication.kt  # Main application class
   ```
 
-- [ ] **Sub-task 1.1.3**: Configure application properties
+- [✅] **Sub-task 1.1.3**: Configure application properties
   ```properties
   # application.properties
   server.port=8080
