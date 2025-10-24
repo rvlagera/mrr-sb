@@ -571,3 +571,73 @@ All tests passing:
 - Total: 57 tests, 0 failures, 0 errors
 
 ---
+
+## Sub-task 2.1.2: Create authentication filter
+
+**Completed:** $(date '+%Y-%m-%d %H:%M:%S')
+
+### Description
+
+Successfully implemented JWT authentication filter with custom user details service for Spring Security integration.
+
+### Key Accomplishments
+
+1. **Created CustomUserDetails** - Custom UserDetails implementation
+   - Wraps Person entity for Spring Security
+   - Implements all UserDetails interface methods
+   - Exposes userId property for easy access
+   - Provides ROLE_USER authority by default
+   - Checks Person.active status for enabled state
+
+2. **Created CustomUserDetailsService** - UserDetailsService implementation  
+   - Loads user by username from PersonRepository
+   - Only retrieves active users
+   - Throws UsernameNotFoundException for missing users
+   - Returns CustomUserDetails with Person data
+
+3. **Created JwtAuthenticationFilter** - OncePerRequestFilter implementation
+   - Extracts JWT token from Authorization header (Bearer scheme)
+   - Validates token using JwtTokenProvider
+   - Loads user details using CustomUserDetailsService
+   - Sets authentication in SecurityContext
+   - Made doFilterInternal public for testing
+   - Includes proper error handling and logging
+
+4. **Created comprehensive unit tests** with 15 test cases:
+   - JwtAuthenticationFilterTest (9 tests)
+   - CustomUserDetailsServiceTest (6 tests)
+   - All tests passing successfully
+
+### Files Created/Modified
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/security/CustomUserDetails.kt` - Created
+- `src/main/kotlin/dev/themobileapps/mrrsb/security/CustomUserDetailsService.kt` - Created
+- `src/main/kotlin/dev/themobileapps/mrrsb/security/JwtAuthenticationFilter.kt` - Created
+- `src/test/kotlin/dev/themobileapps/mrrsb/security/JwtAuthenticationFilterTest.kt` - Created  
+- `src/test/kotlin/dev/themobileapps/mrrsb/security/CustomUserDetailsServiceTest.kt` - Created
+- `plan_sb.md` - Marked sub-task 2.1.2 as completed
+
+### Technical Details
+
+- **Filter Type**: OncePerRequestFilter - executes once per request
+- **Authorization Header**: Expects "Bearer {token}" format
+- **Security Context**: Sets authentication for valid tokens
+- **Error Handling**: Catches all exceptions to prevent filter chain interruption
+- **Logging**: Debug logging for successful authentications, error logging for failures
+
+### Important Notes for Future Tasks
+
+- CustomUserDetailsService is now available as Spring bean
+- Authentication filter automatically sets security context for valid tokens
+- Filter will be configured in SecurityConfig (Sub-task 2.2.1)
+- All users currently get ROLE_USER authority (can be extended for roles)
+- Next task (2.1.3) is to create the authentication service for login
+
+### Test Results
+
+All tests passing:
+- 9 JwtAuthenticationFilterTest tests: ✅
+- 6 CustomUserDetailsServiceTest tests: ✅
+- Total: 70 tests, 0 failures, 0 errors
+
+---

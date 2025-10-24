@@ -497,7 +497,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   }
   ```
 
-- [ ] **Sub-task 2.1.2**: Create authentication filter
+- [✅] **Sub-task 2.1.2**: Create authentication filter
   ```kotlin
   // JwtAuthenticationFilter.kt
   @Component
