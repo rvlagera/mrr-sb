@@ -1336,3 +1336,125 @@ All tests passing:
 Phase 7 (Error Handling and Monitoring) is now complete! The next phase is Phase 8: Deployment and Documentation, starting with Sub-task 8.1.1: Configure OpenAPI/Swagger.
 
 ---
+
+### Sub-task 8.1.1: Configure OpenAPI/Swagger
+
+**Completed:** 2025-10-24 11:30
+
+### Description
+
+Added an OpenAPI configuration to expose comprehensive API documentation via Swagger UI, including metadata, server definitions, and JWT bearer authentication details.
+
+### Key Accomplishments
+
+1. **OpenAPI Bean Configuration**
+   - Created `OpenApiConfig` with API title, description, version, and contact
+   - Documented available environments (local and production servers)
+   - Registered JWT bearer security scheme and requirement for authenticated endpoints
+
+2. **Unit Test Coverage**
+   - Added `OpenApiConfigTest` to validate metadata, security configuration, and server list
+   - Full Maven test suite passing (174 tests total, 0 failures, 0 errors, 9 skipped)
+
+### Files Created
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/OpenApiConfig.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/config/OpenApiConfigTest.kt`
+- `tasks-summary/task-8.1.1-summary.md`
+
+### Files Modified
+
+- `pom.xml` - Updated MockK dependencies to 1.13.12 with explicit agent module for test stability
+- `plan_sb.md` - Marked Sub-task 8.1.1 as completed (✅)
+- `tasks-summary.md` - Added documentation for Sub-task 8.1.1
+
+### Notes for Future Tasks
+
+- Swagger UI should be available under `/swagger-ui/index.html` when running the app with the default profile.
+- JWT-protected endpoints now display the configured bearer authentication scheme.
+- No additional profile-specific overrides required; SpringDoc starter auto-registers endpoints with existing MVC setup.
+
+### Test Results
+
+- Command: `./mvnw test`
+- Outcome: ✅ All 174 tests pass (0 failures, 0 errors, 9 skipped)
+
+---
+
+### Sub-task 8.2.1: Create Dockerfile
+
+**Completed:** 2025-10-24 11:40
+
+### Description
+
+Added a multi-stage Docker build that packages the Spring Boot application with Maven and runs it on Corretto 17 with a health check exposing actuator status.
+
+### Key Accomplishments
+
+1. **Builder Stage Setup**
+   - Uses `amazoncorretto:17-alpine` and Maven wrapper to compile the project
+   - Caches dependencies via `dependency:go-offline` before adding sources
+   - Produces the `mrr-sb-0.0.1-SNAPSHOT.jar` artifact without running tests
+
+2. **Runtime Stage Hardening**
+   - Installs `curl` for container health monitoring
+   - Copies built jar as `app.jar`, exposes port `8080`, and defines a health check hitting `/api/actuator/health`
+   - Launches the service with `ENTRYPOINT ["java", "-jar", "app.jar"]`
+
+### Files Created
+
+- `Dockerfile`
+- `tasks-summary/task-8.2.1-summary.md`
+
+### Files Modified
+
+- `plan_sb.md` – Marked Sub-task 8.2.1 as completed (✅)
+- `tasks-summary.md` – Documented Dockerfile implementation details
+
+### Notes for Future Tasks
+
+- Provide runtime environment variables (`SPRING_PROFILES_ACTIVE`, `DB_PASSWORD`, `JWT_SECRET`, `DATABASE_URL`) when running the container.
+- The Dockerfile expects the packaged jar to remain named `mrr-sb-0.0.1-SNAPSHOT.jar`; update the copy path if the project version changes.
+- Health check requires actuator endpoints to be accessible at `/api/actuator/health`.
+
+### Test Results
+
+- No automated tests executed for Dockerfile creation; recommend running `docker build -t mrr-sb:latest .` when Docker is available.
+
+---
+
+### Sub-task 8.2.2: Create docker-compose.yml
+
+**Completed:** 2025-10-24 11:50
+
+### Description
+
+Added a Docker Compose configuration to run the `mrr-sb` service with environment variables, health checks, and a dedicated bridge network, simplifying local orchestration.
+
+### Key Accomplishments
+
+1. **Service Definition**
+   - Builds from the local `Dockerfile` and maps port `8080:8080`
+   - Exposes key configuration via environment variables (`SPRING_PROFILES_ACTIVE`, `DB_PASSWORD`, `JWT_SECRET`, `DATABASE_URL`)
+   - Uses defaults for profile (`docker`) and database URL targeting host machine PostgreSQL
+
+2. **Operational Resilience**
+   - Enables restart policy `unless-stopped`
+  - Defines health check leveraging actuator endpoint (`/api/actuator/health`)
+   - Isolates service on `mrr-network` bridge for future multi-service expansion
+
+### Files Created
+
+- `docker-compose.yml`
+- `tasks-summary/task-8.2.2-summary.md`
+
+### Files Modified
+
+- `plan_sb.md` – Marked Sub-task 8.2.2 as completed (✅)
+- `tasks-summary.md` – Documented Compose setup details
+
+### Test Results
+
+- No automated Docker Compose test executed; suggested command: `docker-compose up --build` when Docker is available.
+
+---

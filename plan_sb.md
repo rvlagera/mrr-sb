@@ -1243,7 +1243,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 8.1: API Documentation
 
-- [ ] **Sub-task 8.1.1**: Configure OpenAPI/Swagger
+- [✅] **Sub-task 8.1.1**: Configure OpenAPI/Swagger
   ```kotlin
   // OpenApiConfig.kt
   @Configuration
@@ -1280,7 +1280,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 8.2: Docker Deployment
 
-- [ ] **Sub-task 8.2.1**: Create Dockerfile
+- [✅] **Sub-task 8.2.1**: Create Dockerfile
   ```dockerfile
   # Dockerfile
   FROM amazoncorretto:17-alpine AS builder
@@ -1311,7 +1311,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   ENTRYPOINT ["java", "-jar", "app.jar"]
   ```
 
-- [ ] **Sub-task 8.2.2**: Create docker-compose.yml
+- [✅] **Sub-task 8.2.2**: Create docker-compose.yml
   ```yaml
   # docker-compose.yml
   version: '3.8'
