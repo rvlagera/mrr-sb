@@ -535,7 +535,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   }
   ```
 
-- [ ] **Sub-task 2.1.3**: Create authentication service
+- [✅] **Sub-task 2.1.3**: Create authentication service
   ```kotlin
   // AuthService.kt
   @Service

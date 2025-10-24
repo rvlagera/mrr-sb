@@ -641,3 +641,85 @@ All tests passing:
 - Total: 70 tests, 0 failures, 0 errors
 
 ---
+
+## Sub-task 2.1.3: Create authentication service
+
+**Completed:** 2025-10-24 08:51
+
+### Description
+
+Implemented the authentication service for the Spring Boot backend, providing user authentication with support for both plain text and BCrypt password hashing.
+
+### Key Accomplishments
+
+1. **Created DTOs for Authentication**
+   - `LoginRequest.kt`: Request DTO with validation for username and password
+   - `AuthResponse.kt`: Response DTO containing JWT token and user information
+
+2. **Implemented AuthService**
+   - `AuthService.kt`: Service class handling user authentication
+   - Supports both plain text and BCrypt password validation for migration compatibility
+   - Returns JWT token along with user details upon successful authentication
+   - Throws `BadCredentialsException` for invalid credentials
+   - Overloaded authenticate method supporting both direct parameters and LoginRequest DTO
+
+3. **Created PasswordEncoderConfig**
+   - `PasswordEncoderConfig.kt`: Configuration class providing BCryptPasswordEncoder bean
+   - This bean is required by AuthService and will be used by SecurityConfig in future tasks
+   - Enables password encryption support throughout the application
+
+4. **Comprehensive Test Coverage**
+   - `AuthServiceTest.kt`: 10 comprehensive test cases covering:
+     - Valid plain text credentials
+     - Valid BCrypt credentials
+     - LoginRequest authentication
+     - User not found scenarios
+     - Inactive user scenarios
+     - Incorrect plain text password
+     - Incorrect BCrypt password
+     - User with mobile number
+     - BCrypt vs plain text password detection
+     - Plain text password validation
+
+### Files Created
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/dto/request/LoginRequest.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/dto/response/AuthResponse.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/service/AuthService.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/config/PasswordEncoderConfig.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/service/AuthServiceTest.kt`
+- `tasks-summary/task-2.1.3-summary.md`
+
+### Files Modified
+
+- `plan_sb.md` - Marked Sub-task 2.1.3 as completed (✅)
+
+### Technical Details
+
+- **Authentication Flow**: Username/password validation → Active user check → Password comparison → JWT token generation
+- **Password Support**: Dual support for plain text and BCrypt passwords
+- **Password Detection**: Checks if password starts with "$2" to determine BCrypt vs plain text
+- **Security**: Uses BCryptPasswordEncoder for BCrypt password validation
+- **Exception Handling**: Throws BadCredentialsException for all authentication failures
+
+### Important Notes for Future Tasks
+
+- The `PasswordEncoderConfig` provides the `BCryptPasswordEncoder` bean needed by `AuthService`
+- This configuration will be consolidated when implementing Task 2.2.1 (SecurityConfig)
+- The service supports both plain text and BCrypt passwords by checking if the stored password starts with "$2"
+- This dual support enables gradual migration from plain text to BCrypt passwords
+- The `authenticate` method is overloaded to accept both separate username/password parameters and a `LoginRequest` DTO
+- AuthService is ready to be used by AuthController in Phase 3
+
+### Test Results
+
+All tests passing:
+- 10 AuthService tests (new): ✅
+- All existing tests: ✅
+- **Total: 80 tests, 0 failures, 0 errors**
+
+### Next Steps
+
+The next subtask (2.2.1) is to configure Spring Security with the authentication filter and CORS settings.
+
+---
