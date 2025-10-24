@@ -767,7 +767,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 4.1: WebSocket Configuration
 
-- [ ] **Sub-task 4.1.1**: Configure WebSocket with STOMP
+- [✅] **Sub-task 4.1.1**: Configure WebSocket with STOMP
   ```kotlin
   // WebSocketConfig.kt
   @Configuration
@@ -791,7 +791,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   }
   ```
 
-- [ ] **Sub-task 4.1.2**: Create WebSocket authentication interceptor
+- [✅] **Sub-task 4.1.2**: Create WebSocket authentication interceptor
   ```kotlin
   // AuthChannelInterceptor.kt
   class AuthChannelInterceptor(

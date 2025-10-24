@@ -980,3 +980,58 @@ Successfully implemented the UserController with REST endpoints for user profile
 The next phase (Phase 4) is WebSocket Implementation, starting with sub-task 4.1.1: Configure WebSocket with STOMP.
 
 ---
+
+## Sub-task 4.1.1 & 4.1.2: Configure WebSocket with STOMP and Create WebSocket authentication interceptor
+
+**Completed:** 2025-10-24 09:43
+
+### Description
+
+Successfully configured WebSocket communication using STOMP protocol with JWT authentication for real-time messaging between server and clients.
+
+### Key Accomplishments
+
+1. **Created WebSocketConfig** for STOMP message broker:
+   - Simple in-memory broker with `/topic` and `/queue` destinations
+   - `/ws` endpoint with SockJS fallback support
+   - Application destination prefix `/app`
+   - User destination prefix `/user`
+   - Integrated AuthChannelInterceptor
+
+2. **Created AuthChannelInterceptor** for WebSocket authentication:
+   - JWT token validation from Authorization header
+   - Supports Bearer and plain token formats
+   - Sets user principal for authenticated connections
+   - Comprehensive error handling
+
+3. **Created comprehensive tests**:
+   - 4 WebSocketConfig tests
+   - 7 AuthChannelInterceptor tests
+   - All 147 tests passing
+
+### Files Created
+
+- WebSocketConfig.kt, AuthChannelInterceptor.kt
+- WebSocketConfigTest.kt, AuthChannelInterceptorTest.kt
+- task-4.1.1-summary.md
+
+### Files Modified
+
+- plan_sb.md - Marked sub-tasks 4.1.1 and 4.1.2 as completed
+
+### Important Notes
+
+- **WebSocket Endpoint**: `/ws` with SockJS fallback
+- **Authentication**: JWT token required in Authorization header
+- **Message Destinations**:
+  - `/topic/*` - Broadcasting to multiple subscribers
+  - `/queue/*` - Point-to-point messaging
+  - `/user/*` - User-specific messages
+- **Security**: Authenticated via STOMP CONNECT command
+- **Ready for**: WebSocket controllers and notification service
+
+### Next Steps
+
+The next subtask (4.2.1) is to create message notification service for WebSocket real-time updates.
+
+---
