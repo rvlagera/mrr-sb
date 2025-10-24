@@ -383,7 +383,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
   )
   ```
 
-- [ ] **Sub-task 1.2.2**: Create repositories
+- [✅] **Sub-task 1.2.2**: Create repositories
   ```kotlin
   // PersonRepository.kt
   @Repository

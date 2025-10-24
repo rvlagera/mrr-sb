@@ -258,3 +258,115 @@ All tests passing:
 ### Next Steps
 
 The next subtask (1.2.2) is to create JPA repositories for Person and OutboundSms entities with custom query methods.
+
+---
+
+## Sub-task 1.2.2: Create repositories
+
+**Completed:** 2025-10-24 08:25:15
+
+### Description
+
+Created JPA repository interfaces for Person and OutboundSms entities with custom query methods using Spring Data JPA's method name conventions for automatic query generation.
+
+### Key Accomplishments
+
+1. **Created PersonRepository** (`src/main/kotlin/dev/themobileapps/mrrsb/repository/PersonRepository.kt`):
+   - Extends JpaRepository<Person, Int>
+   - Custom method: `findByUsername(username: String): Person?`
+   - Custom method: `findByUsernameAndActive(username: String, active: Boolean): Person?`
+   - Includes comprehensive KDoc documentation
+
+2. **Created OutboundSmsRepository** (`src/main/kotlin/dev/themobileapps/mrrsb/repository/OutboundSmsRepository.kt`):
+   - Extends JpaRepository<OutboundSms, Int>
+   - Custom method: `findByPersonPersonIdOrderByDateRequestedDesc(personId: Int, pageable: Pageable): Page<OutboundSms>`
+   - Custom method: `findByPersonPersonIdAndDateRequestedAfterOrderByDateRequestedDesc(personId: Int, after: LocalDateTime): List<OutboundSms>`
+   - Custom method: `countByPersonPersonIdAndDateSentIsNull(personId: Int): Long`
+   - Supports pagination, filtering, and sorting
+   - Includes comprehensive KDoc documentation
+
+3. **Created comprehensive repository integration tests**:
+   - `PersonRepositoryTest.kt` - 9 tests for PersonRepository
+   - `OutboundSmsRepositoryTest.kt` - 11 tests for OutboundSmsRepository
+   - Tests use @DataJpaTest for repository layer testing
+   - Tests use TestEntityManager for test data setup
+   - All 29 tests passing (20 repository tests + 9 existing tests)
+
+### Files Created
+
+- `src/main/kotlin/dev/themobileapps/mrrsb/repository/PersonRepository.kt`
+- `src/main/kotlin/dev/themobileapps/mrrsb/repository/OutboundSmsRepository.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/repository/PersonRepositoryTest.kt`
+- `src/test/kotlin/dev/themobileapps/mrrsb/repository/OutboundSmsRepositoryTest.kt`
+
+### Files Modified
+
+- `plan_sb.md` - Marked Sub-task 1.2.2 as completed (✅)
+
+### Important Notes for Future Tasks
+
+- **PersonRepository Custom Queries:**
+  - `findByUsername` - Finds user by exact username match
+  - `findByUsernameAndActive` - Finds active/inactive users (for authentication)
+  - All methods return nullable Person? for safe handling
+
+- **OutboundSmsRepository Custom Queries:**
+  - `findByPersonPersonIdOrderByDateRequestedDesc` - Paginated messages for a user
+  - `findByPersonPersonIdAndDateRequestedAfterOrderByDateRequestedDesc` - Messages after specific date
+  - `countByPersonPersonIdAndDateSentIsNull` - Count of unread/unsent messages
+  - Queries follow Spring Data JPA naming convention (Person.person.personId -> PersonPersonId)
+
+- **Query Method Features:**
+  - Automatic query generation from method names
+  - No need for @Query annotations
+  - Type-safe with Kotlin nullability
+  - Supports pagination with Pageable parameter
+  - Supports sorting via method name (OrderBy...)
+  - Supports filtering (After, IsNull, And, etc.)
+
+- **Testing Approach:**
+  - @DataJpaTest annotation for JPA-specific tests
+  - H2 in-memory database for test isolation
+  - TestEntityManager for test data setup
+  - Tests cover: finding, pagination, counting, filtering, edge cases
+  - All relationship navigations tested (person.personId)
+
+### Testing Results
+
+All tests passing:
+- 1 Spring Boot application context test
+- 3 Person entity tests
+- 5 OutboundSms entity tests
+- 9 PersonRepository tests (new)
+- 11 OutboundSmsRepository tests (new)
+- **Total: 29 tests - all passing**
+
+### Test Coverage
+
+**PersonRepository Tests:**
+- Find person by username (positive case)
+- Find person by username (not found case)
+- Find active person by username and active status
+- Not find inactive person when searching for active
+- Find inactive person when searching for inactive
+- Save and retrieve person
+- Find all persons
+- Delete person by id
+- Count all persons
+
+**OutboundSmsRepository Tests:**
+- Find messages ordered by date descending
+- Support pagination for messages
+- Find messages after a specific date
+- Count unread messages (dateSent is null)
+- Return zero when no unread messages
+- Find messages by ID
+- Save and retrieve message
+- Return empty page when person has no messages
+- Return empty list when no messages after date
+- Count all messages for person
+- Verify messages are ordered descending
+
+### Next Steps
+
+The next subtask (1.2.3) is to configure database listener for real-time updates using PostgreSQL LISTEN/NOTIFY.
