@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dev.themobileapps.mrrsb.entity.OutboundSms
 import dev.themobileapps.mrrsb.entity.Person
 import dev.themobileapps.mrrsb.repository.OutboundSmsRepository
+import dev.themobileapps.mrrsb.websocket.NotificationWebSocketService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -23,6 +24,9 @@ class NotificationServiceTest {
 
     @MockK
     private lateinit var outboundSmsRepository: OutboundSmsRepository
+
+    @MockK(relaxed = true)
+    private lateinit var webSocketService: NotificationWebSocketService
 
     @InjectMockKs
     private lateinit var notificationService: NotificationService
@@ -93,6 +97,7 @@ class NotificationServiceTest {
 
         // Then
         verify(exactly = 1) { outboundSmsRepository.findById(smsId) }
+        verify(exactly = 1) { webSocketService.notifyNewMessage(message) }
     }
 
     @Test
@@ -178,6 +183,7 @@ class NotificationServiceTest {
 
         // Then
         verify(exactly = 1) { outboundSmsRepository.findById(smsId) }
+        verify(exactly = 1) { webSocketService.notifyNewMessage(message) }
     }
 
     @Test
@@ -205,5 +211,6 @@ class NotificationServiceTest {
 
         // Then
         verify(exactly = 1) { outboundSmsRepository.findById(smsId) }
+        verify(exactly = 1) { webSocketService.notifyNewMessage(message) }
     }
 }

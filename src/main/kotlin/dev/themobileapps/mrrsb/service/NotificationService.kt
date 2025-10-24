@@ -2,6 +2,7 @@ package dev.themobileapps.mrrsb.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import dev.themobileapps.mrrsb.repository.OutboundSmsRepository
+import dev.themobileapps.mrrsb.websocket.NotificationWebSocketService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class NotificationService(
     private val outboundSmsRepository: OutboundSmsRepository,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val webSocketService: NotificationWebSocketService
 ) {
 
     private val logger = LoggerFactory.getLogger(NotificationService::class.java)
@@ -38,12 +40,10 @@ class NotificationService(
                 return
             }
 
-            // In future, this will send the message via WebSocket
-            // For now, just log it
-            logger.info("New message notification processed: SMS ID=$smsId, User=${message.person?.username}, AlertLevel=${message.alertLevel}")
-
-            // TODO: Send via WebSocket when WebSocket service is implemented
-            // webSocketService.notifyNewMessage(message)
+            // Send notification via WebSocket
+            webSocketService.notifyNewMessage(message)
+            
+            logger.info("New message notification processed and sent via WebSocket: SMS ID=$smsId, User=${message.person?.username}, AlertLevel=${message.alertLevel}")
 
         } catch (e: Exception) {
             logger.error("Error processing message notification: ${e.message}", e)

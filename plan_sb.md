@@ -825,7 +825,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 4.2: WebSocket Message Handler
 
-- [ ] **Sub-task 4.2.1**: Create message notification service
+- [✅] **Sub-task 4.2.1**: Create message notification service
   ```kotlin
   // NotificationWebSocketService.kt
   @Service

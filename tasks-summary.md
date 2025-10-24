@@ -1035,3 +1035,60 @@ Successfully configured WebSocket communication using STOMP protocol with JWT au
 The next subtask (4.2.1) is to create message notification service for WebSocket real-time updates.
 
 ---
+
+## Sub-task 4.2.1: Create message notification service
+
+**Completed:** 2025-10-24 09:52
+
+### Description
+
+Successfully implemented the WebSocket notification service for real-time message delivery. The service sends notifications to users when new messages arrive and broadcasts high-priority alerts to all subscribers.
+
+### Key Accomplishments
+
+1. **Created NotificationWebSocketService**:
+   - Sends message notifications to specific users via WebSocket
+   - Broadcasts high-priority alerts (alertLevel >= 2) to topic
+   - Sends heartbeat messages for connection monitoring
+   - Sends unread count updates to users
+   - Comprehensive error handling and logging
+
+2. **Updated NotificationService**:
+   - Integrated NotificationWebSocketService
+   - Removed TODO comment - WebSocket now fully functional
+   - Real-time notifications triggered by database LISTEN/NOTIFY
+
+3. **Comprehensive Test Coverage**:
+   - 9 NotificationWebSocketService tests
+   - Updated NotificationService tests
+   - All 156 tests passing
+
+### Files Created
+
+- NotificationWebSocketService.kt
+- NotificationWebSocketServiceTest.kt
+- task-4.2.1-summary.md
+
+### Files Modified
+
+- NotificationService.kt - Added WebSocket integration
+- NotificationServiceTest.kt - Added WebSocket mock
+- plan_sb.md - Marked sub-task as completed
+
+### Important Notes
+
+- **Real-time Notifications**: Database triggers now send WebSocket messages
+- **Message Destinations**:
+  - `/user/{username}/queue/messages` - User-specific notifications
+  - `/topic/alerts` - High-priority broadcasts (alertLevel >= 2)
+  - `/topic/heartbeat` - Connection keep-alive
+  - `/user/{username}/queue/unread-count` - Unread count updates
+- **Authentication**: JWT required via AuthChannelInterceptor
+- **Error Handling**: All errors caught and logged, no cascading failures
+- **Ready for Clients**: Backend fully configured for WebSocket integration
+
+### Next Steps
+
+The next subtask (4.2.2) is to create WebSocket controller for handling client subscriptions, ping/pong, and scheduled heartbeats.
+
+---
