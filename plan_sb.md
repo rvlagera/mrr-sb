@@ -314,7 +314,7 @@ A Spring Boot backend service providing REST APIs and WebSocket connections for 
 
 ### Task 1.2: Database Integration
 
-- [ ] **Sub-task 1.2.1**: Create JPA entities
+- [✅] **Sub-task 1.2.1**: Create JPA entities
   ```kotlin
   // Person.kt
   @Entity
